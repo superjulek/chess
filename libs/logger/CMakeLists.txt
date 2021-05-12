@@ -12,6 +12,7 @@ set(SOURCES_DIR
 
 set(HEADERS
     ${HEADERS_DIR}/logger.h
+    ${HEADERS_DIR}/channels/i_logger_channel.h
     ${HEADERS_DIR}/channels/console_logger.h
     ${HEADERS_DIR}/channels/file_logger.h
 )
@@ -21,6 +22,8 @@ set(SOURCES
     ${SOURCES_DIR}/channels/console_logger.cpp
     ${SOURCES_DIR}/channels/file_logger.cpp
 )
+
+set(CMAKE_CXX_CLANG_TIDY clang-tidy -checks=-*,readability-*)
 
 add_library(${LIBRARY_NAME} ${SOURCES} ${HEADERS})
 

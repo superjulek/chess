@@ -1,11 +1,10 @@
-//#include <board/board.h>
-#include <logger/logger.h>
 #include "config.h"
+#include <logger/channels/console_logger.h>
+#include <logger/logger.h>
 
-#include <iostream>
-
-int main()
-{
-                std::cout << Config::welcome_message << std::endl;
-    return 0;
+int main() {
+  Logger::get_instance().register_channel(std::make_unique<ConsoleLogger>(
+      ConsoleLogger(LogSev::Debug, LogSev::Error)));
+  Logger::get_instance().log(LogSev::Info, "Program launched");
+  return 0;
 }
