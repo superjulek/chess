@@ -4,7 +4,7 @@
 
 int main() {
   Logger::get_instance().register_channel(std::make_unique<ConsoleLogger>(
-      ConsoleLogger(LogSev::Dbg, LogSev::Error)));
+      ConsoleLogger(LogSev::Debug, LogSev::Error)));
   Logger::get_instance().log(LogSev::Info, "Program launched");
   return 0;
 }

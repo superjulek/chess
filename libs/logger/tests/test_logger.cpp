@@ -5,7 +5,7 @@
 
 TEST(ConsoleLoggerTests, CreateLogger) {
   Logger::get_instance().register_channel(std::make_unique<ConsoleLogger>(
-      ConsoleLogger(LogSev::Dbg, LogSev::Error)));
+      ConsoleLogger(LogSev::Debug, LogSev::Error)));
   ASSERT_TRUE(true);
   Logger::get_instance().flush_channels();
 }
@@ -13,14 +13,14 @@ TEST(ConsoleLoggerTests, CreateLogger) {
 TEST(ConsoleLoggerTests, WriteLogger) {
   std::ostringstream local;
   std::string testing_text = "Testing Log";
-  std::string expected_text = "DBG: " + testing_text + "\n";
+  std::string expected_text = "DEBUG: " + testing_text + "\n";
 
   auto *cout_buff = std::cout.rdbuf();
   std::cout.rdbuf(local.rdbuf());
 
   Logger::get_instance().register_channel(std::make_unique<ConsoleLogger>(
-      ConsoleLogger(LogSev::Dbg, LogSev::Error)));
-  Logger::get_instance().log(LogSev::Dbg, testing_text);
+      ConsoleLogger(LogSev::Debug, LogSev::Error)));
+  Logger::get_instance().log(LogSev::Debug, testing_text);
   ASSERT_STREQ(local.str().c_str(), expected_text.c_str());
   Logger::get_instance().flush_channels();
   std::cout.rdbuf(cout_buff);

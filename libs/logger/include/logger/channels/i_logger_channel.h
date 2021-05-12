@@ -5,11 +5,12 @@
 class ILoggerChannel {
 public:
   enum class Severity : int {
-    Dbg,
     Trace,
+    Debug,
     Info,
     Warning,
     Error,
+    Fatal,
   };
   struct Message {
     Severity sev;
@@ -32,11 +33,11 @@ public:
 inline std::ostream &operator<<(std::ostream &os,
                                 const ILoggerChannel::Severity &sev) {
   switch (sev) {
-  case ILoggerChannel::Severity::Dbg:
-    os << std::string("DBG");
-    break;
   case ILoggerChannel::Severity::Trace:
-    os << std::string("Trace");
+    os << std::string("TRACE");
+    break;
+  case ILoggerChannel::Severity::Debug:
+    os << std::string("DEBUG");
     break;
   case ILoggerChannel::Severity::Info:
     os << std::string("INFO");
@@ -46,6 +47,9 @@ inline std::ostream &operator<<(std::ostream &os,
     break;
   case ILoggerChannel::Severity::Error:
     os << std::string("ERROR");
+    break;
+  case ILoggerChannel::Severity::Fatal:
+    os << std::string("FATAL");
     break;
   default:
     os << std::string("WRONG_LEVEL ");
