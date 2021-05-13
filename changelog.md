@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.3 (2021-05-14) jneuman
+- Dodanie CI
+
 ## 0.0.2 (2021-05-12) jneuman
 - Dodanie loggera konsolowego
 
