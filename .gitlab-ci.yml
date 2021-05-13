@@ -1,0 +1,27 @@
+before_script:
+  - apt update --yes
+  - apt install --yes cmake
+  - apt install --yes clang-tidy
+
+build-gcc11:
+  image: gcc:11
+  stage: build
+  script:
+    - echo "Building"
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make
+  artifacts:
+    untracked: true
+
+test-gcc11:
+  image: gcc:11
+  stage: test
+  needs: ["build-gcc11"]
+  script:
+    - echo "Testing"
+    - cd build
+    - make test
+  artifacts:
+    untracked: true
