@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.5 (2021-05-15) jneuman
+- Dodanie loggera do pliku
+
 ## 0.0.4 (2021-05-15) jneuman
 - Dodanie cppcheck do CI
 
