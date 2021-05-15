@@ -21,7 +21,7 @@ void Logger::log(const ILoggerChannel::Message &mes) {
 
 void Logger::log(ILoggerChannel::Severity sev, const std::string &text)
 {
-    log({sev, text});
+  this->log({sev, text});
 }
 
 void Logger::flush_channels()

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.4 (2021-05-15) jneuman
+- Dodanie cppcheck do CI
+
 ## 0.0.3 (2021-05-14) jneuman
 - Dodanie CI
 
