@@ -15,6 +15,16 @@ build-gcc11:
   artifacts:
     untracked: true
 
+check:
+  before_script: []
+  image: ubuntu:20.04
+  stage: .pre
+  script:
+    - apt update --yes
+    - apt install --yes cppcheck
+    - echo "Linting"
+    - cppcheck --enable=all --error-exitcode=1 --suppress=missingIncludeSystem missingInclude ./src/ ./libs/
+
 test-gcc11:
   image: gcc:11
   stage: test
