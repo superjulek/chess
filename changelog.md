@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.6 (2021-05-16) jneuman
+- Dodanie interfejsu figury
+- Dodanie pionka
+- Dodanie planszy (tworzenie)
+- Poprawki współrzędnych
+- Testy planszy, pionka, współrzędnych
+- Inne drobne
+
 ## 0.0.5 (2021-05-15) jneuman
 - Dodanie loggera do pliku
 
