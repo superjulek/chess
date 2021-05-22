@@ -811,6 +811,7 @@ TEST(BoardTests, TestApplyMove) {
   ASSERT_TRUE(blayout.layout.at(0).at(1).piece_id == Piece::PieceID::Pawn);
   ASSERT_TRUE(blayout.layout.at(0).at(0).piece_id == Piece::PieceID::Empty);
 }
+
 TEST(BoardTests, TestApplyStoredMove) {
   Board board("w a2bP");
   StoredMove move = {{{'a', '1'}, {'a', '2'}}, Piece::PieceID::Pawn};
