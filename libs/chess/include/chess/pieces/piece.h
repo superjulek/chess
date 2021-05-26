@@ -4,6 +4,8 @@
 
 #include <vector>
 
+inline unsigned const chess_size = 8;
+
 struct PossibleMove; // Forward declaration to avoid circular dependencies
 
 class Piece {
@@ -14,13 +16,12 @@ public:
   };
   enum class PieceID : int {
     Empty,
-    King,
-    Lady,
-    Paw,
-    Tower,
-    Runner,
-    Rider,
-    Pawn,
+    King,   // krol
+    Queen,  // hetman
+    Bishop, // goniec
+    Rook,   // wieza
+    Knight, // skoczek
+    Pawn,   // pion
   };
 
 protected:
