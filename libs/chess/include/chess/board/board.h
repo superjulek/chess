@@ -1,8 +1,13 @@
 #pragma once
 
+#include "../pieces/bishop.h"
 #include "../pieces/empty.h"
-#include "../pieces/piece.h"
+#include "../pieces/king.h"
+#include "../pieces/knight.h"
 #include "../pieces/pawn.h"
+#include "../pieces/piece.h"
+#include "../pieces/rook.h"
+#include "../pieces/queen.h"
 
 #include <array>
 #include <memory>
@@ -11,7 +16,6 @@
 class Board {
 public:
   Board();
-  unsigned static const chess_size = 8;
   struct BoardLayout {
     struct TileData {
       Piece::PieceID piece_id;

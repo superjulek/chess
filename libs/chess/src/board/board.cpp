@@ -10,12 +10,28 @@ Board::Board() {
   const int last_empty_rank = 5;
   const int first_file = 0;
 
-  /* Set rank of white Figures */
-  /* TODO: FIX!!!*/
-  for (size_t file = first_file; file < chess_size; ++file) {
-    fields.at(file).at(first_rank) =
-        std::make_unique<Pieces::Empty>(Pieces::Empty());
-  }
+  /* Rank in chess notation goes for rows, files for vertical columns*/
+
+  /* Set ranks of Figures */
+
+  auto set_figures_rank = [&](size_t rank, Piece::PieceColor color) {
+    fields.at(0).at(rank) = std::make_unique<Pieces::Rook>(Pieces::Rook(color));
+    fields.at(chess_size - 1).at(rank) =
+        std::make_unique<Pieces::Rook>(Pieces::Rook(color));
+    fields.at(1).at(rank) =
+        std::make_unique<Pieces::Knight>(Pieces::Knight(color));
+    fields.at(chess_size - 2).at(rank) =
+        std::make_unique<Pieces::Knight>(Pieces::Knight(color));
+    fields.at(2).at(rank) =
+        std::make_unique<Pieces::Bishop>(Pieces::Bishop(color));
+    fields.at(chess_size - 3).at(rank) =
+        std::make_unique<Pieces::Bishop>(Pieces::Bishop(color));
+    fields.at(3).at(rank) = std::make_unique<Pieces::Queen>(Pieces::Queen(color));
+    fields.at(4).at(rank) = std::make_unique<Pieces::King>(Pieces::King(color));
+  };
+
+  set_figures_rank(first_rank, Piece::PieceColor::White);
+  set_figures_rank(last_rank, Piece::PieceColor::Black);
 
   /* Set rank of white Pawns */
   for (size_t file = first_file; file < chess_size; ++file) {
@@ -35,13 +51,6 @@ Board::Board() {
   for (size_t file = first_file; file < chess_size; ++file) {
     fields.at(file).at(penultimate_rank) =
         std::make_unique<Pieces::Pawn>(Pieces::Pawn(Piece::PieceColor::Black));
-  }
-
-  /* Set rank of black Figures */
-  /* TODO: FIX!!!*/
-  for (size_t file = first_file; file < chess_size; ++file) {
-    fields.at(file).at(last_rank) =
-        std::make_unique<Pieces::Empty>(Pieces::Empty());
   }
 }
 
