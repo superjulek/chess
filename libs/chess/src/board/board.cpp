@@ -342,3 +342,21 @@ std::vector<PossibleMove> Board::get_possible_moves() { // NOLINT
   }
   return possible_moves;
 }
+
+bool Board::is_checkmate() {
+  return is_check(true) && get_possible_moves().empty();
+}
+
+bool operator==(const Board::BoardLayout &bl1, const Board::BoardLayout &bl2) {
+  for (size_t file = 0; file < chess_size; ++file) {
+    for (size_t rank = 0; rank < chess_size; ++rank) {
+      if (bl1.layout.at(file).at(rank).piece_id !=
+              bl2.layout.at(file).at(rank).piece_id ||
+          bl1.layout.at(file).at(rank).color !=
+              bl2.layout.at(file).at(rank).color) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
