@@ -35,6 +35,7 @@ public:
     };
     /* .at(file).at(rank) */
     std::array<std::array<TileData, chess_size>, chess_size> layout;
+    friend bool operator==(const Board::BoardLayout &bl1, const Board::BoardLayout &bl2);
   };
   BoardLayout get_layout();
   // For current player
@@ -45,6 +46,7 @@ public:
    * @param current   true for testing current player
    * */
   bool is_check(bool current);
+  bool is_checkmate();
   /**
    * Apply history move
    * @param forward   true for forward in history

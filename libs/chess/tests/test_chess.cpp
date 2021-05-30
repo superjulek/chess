@@ -893,3 +893,12 @@ TEST(BoardTests, GetAllPossibleOne) {
   ASSERT_EQ(possible.size(), 1);
   ASSERT_TRUE(possible.at(0).to == Coordinates({'d', '3'}));
 }
+
+TEST(BoardTest, IsCheckmate) {
+  Board board("w a1wK a3bR c1bR c3bQ");
+
+  ASSERT_TRUE(board.is_checkmate());
+  Board board1("w a1wK a3bR c1bR");
+
+  ASSERT_FALSE(board1.is_checkmate());
+}
