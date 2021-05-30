@@ -24,3 +24,8 @@ std::vector<PossibleMove> King::get_possible_moves(const Coordinates &coords) {
   }
   return possible_moves;
 }
+
+std::unique_ptr<Piece> King::clone()
+{
+  return std::make_unique<King> (*this);
+}

@@ -15,3 +15,8 @@ std::vector<PossibleMove> Queen::get_possible_moves(const Coordinates &coords) {
             std::back_inserter(possible_moves));
   return possible_moves;
 }
+
+std::unique_ptr<Piece> Queen::clone()
+{
+  return std::make_unique<Queen> (*this);
+}

@@ -34,3 +34,8 @@ Bishop::get_possible_moves(const Coordinates &coords) {
   }
   return possible_moves;
 }
+
+std::unique_ptr<Piece> Bishop::clone()
+{
+  return std::make_unique<Bishop> (*this);
+}

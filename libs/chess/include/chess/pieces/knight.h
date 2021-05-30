@@ -10,5 +10,6 @@ public:
   virtual std::vector<PossibleMove>
   get_possible_moves(const Coordinates &coords) override;
   const static std::array<std::pair<int, int>, 8> knight_moves;
+  std::unique_ptr<Piece> clone() override;
 };
 } // namespace Pieces

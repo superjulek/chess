@@ -14,6 +14,7 @@ set(HEADERS
     ${HEADERS_DIR}/board/coordinates.h
     ${HEADERS_DIR}/board/board.h
     ${HEADERS_DIR}/pieces/piece.h
+    ${HEADERS_DIR}/pieces/piece_factory.h
     ${HEADERS_DIR}/board/move.h
     ${HEADERS_DIR}/pieces/pawn.h
     ${HEADERS_DIR}/pieces/empty.h

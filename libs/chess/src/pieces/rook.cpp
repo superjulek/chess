@@ -33,3 +33,8 @@ std::vector<PossibleMove> Rook::get_possible_moves(const Coordinates &coords) {
   }
   return possible_moves;
 }
+
+std::unique_ptr<Piece> Rook::clone()
+{
+  return std::make_unique<Rook> (*this);
+}

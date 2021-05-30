@@ -24,6 +24,6 @@ struct PossibleMove : public Move {
 
 /* For keeping in history and replaying board back and forward */
 struct StoredMove : public Move {
-  Piece::PieceColor moved_color;
+  // Piece::PieceColor moved_color;
   Piece::PieceID piece_captured;
 };
