@@ -70,3 +70,8 @@ std::vector<PossibleMove> Pawn::get_possible_moves(const Coordinates &coords) {
   }
   return possible_moves;
 }
+
+std::unique_ptr<Piece> Pawn::clone()
+{
+  return std::make_unique<Pawn> (*this);
+}

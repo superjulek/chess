@@ -10,3 +10,8 @@ std::vector<PossibleMove> Empty::get_possible_moves(const Coordinates &coords
   std::vector<PossibleMove> possible_moves;
   return possible_moves;
 }
+
+std::unique_ptr<Piece> Empty::clone()
+{
+  return std::make_unique<Empty> (*this);
+}

@@ -619,6 +619,7 @@ TEST(QueenTests, PossibleMoveTestQb3) {
   Pieces::Queen queen(Piece::PieceColor::White);
   auto posible_moves = queen.get_possible_moves(Coordinates('b', '3'));
   ASSERT_EQ(posible_moves.size(), 23);
+  // TODO: test more
 }
 
 // Board
@@ -670,4 +671,224 @@ TEST(BoardTests, CreateBoardLayout) {
 
   ASSERT_TRUE(blayout.layout.at(4).at(7).color == Piece::PieceColor::Black);
   ASSERT_TRUE(blayout.layout.at(0).at(7).color == Piece::PieceColor::Black);
+}
+
+TEST(BoardTests, BoardCopy) {
+  Board board;
+  Board board2 = board;
+  Board::BoardLayout blayout = board.get_layout();
+  Board::BoardLayout blayout2 = board2.get_layout();
+  ASSERT_TRUE(blayout.layout.at(0).at(0).color ==
+              blayout2.layout.at(0).at(0).color);
+  ASSERT_TRUE(blayout.layout.at(0).at(7).color ==
+              blayout2.layout.at(0).at(7).color);
+  ASSERT_TRUE(blayout.layout.at(7).at(0).color ==
+              blayout2.layout.at(7).at(0).color);
+  ASSERT_TRUE(blayout.layout.at(7).at(7).color ==
+              blayout2.layout.at(7).at(7).color);
+  ASSERT_TRUE(blayout.layout.at(0).at(0).piece_id ==
+              blayout2.layout.at(0).at(0).piece_id);
+  ASSERT_TRUE(blayout.layout.at(0).at(0).piece_id ==
+              blayout2.layout.at(0).at(7).piece_id);
+  ASSERT_TRUE(blayout.layout.at(7).at(0).piece_id ==
+              blayout2.layout.at(7).at(0).piece_id);
+  ASSERT_TRUE(blayout.layout.at(7).at(0).piece_id ==
+              blayout2.layout.at(7).at(7).piece_id);
+}
+
+TEST(BoardTests, CreateBoardFromNotation) {
+  Board board = Board(std::string("w a1wP h8bP"));
+  Board board2("b");
+  Board::BoardLayout blayout = board.get_layout();
+
+  ASSERT_TRUE(board.get_current_player() == Piece::PieceColor::White);
+  ASSERT_TRUE(board2.get_current_player() == Piece::PieceColor::Black);
+  ASSERT_TRUE(blayout.layout.at(0).at(0).color == Piece::PieceColor::White);
+  ASSERT_TRUE(blayout.layout.at(0).at(0).piece_id == Piece::PieceID::Pawn);
+  ASSERT_TRUE(blayout.layout.at(7).at(7).color == Piece::PieceColor::Black);
+  ASSERT_TRUE(blayout.layout.at(7).at(7).piece_id == Piece::PieceID::Pawn);
+  ASSERT_TRUE(blayout.layout.at(0).at(1).piece_id == Piece::PieceID::Empty);
+  ASSERT_TRUE(blayout.layout.at(1).at(0).piece_id == Piece::PieceID::Empty);
+}
+
+TEST(BoardTests, TestIsCheckPawnW) {
+  Board board = Board("w b3wK c4bP");
+  bool checked_white = board.is_check(true);
+
+  ASSERT_TRUE(checked_white);
+}
+
+TEST(BoardTests, TestIsCheckPawnB) {
+  Board board = Board("b g7bP h6wK");
+  bool checked_white = board.is_check(false);
+
+  ASSERT_TRUE(checked_white);
+}
+
+TEST(BoardTests, TestIsCheckRook) {
+  Board board = Board("w h8bK a8wR");
+  bool checked_black = board.is_check(false);
+
+  ASSERT_TRUE(checked_black);
+}
+
+TEST(BoardTests, TestIsCheckKnight) {
+  Board board = Board("b c5bN e4wK");
+  bool checked_white = board.is_check(false);
+
+  ASSERT_TRUE(checked_white);
+}
+
+TEST(BoardTests, TestIsCheckKing) {
+  Board board = Board("b c8bK d7wK");
+  bool checked_white = board.is_check(true);
+
+  ASSERT_TRUE(checked_white);
+}
+
+TEST(BoardTests, TestIsCheckBishop) {
+  Board board = Board("w a8wK h1bB");
+  bool checked_white = board.is_check(true);
+
+  ASSERT_TRUE(checked_white);
+}
+
+TEST(BoardTests, TestIsCheckQueenRank) {
+  Board board = Board("w h7wK a7bQ");
+  bool checked_white = board.is_check(true);
+
+  ASSERT_TRUE(checked_white);
+}
+
+TEST(BoardTests, TestIsCheckQueenFile) {
+  Board board = Board("w h7wK h2bQ");
+  bool checked_white = board.is_check(true);
+
+  ASSERT_TRUE(checked_white);
+}
+
+TEST(BoardTests, TestIsCheckQueenDiag) {
+  Board board = Board("w h1wK f3bQ");
+  bool checked_white = board.is_check(true);
+
+  ASSERT_TRUE(checked_white);
+}
+
+TEST(BoardTests, TestIsCheckBishopObstacleSame) {
+  Board board = Board("w a8wK h1bB");
+  bool checked_white = board.is_check(true);
+
+  ASSERT_TRUE(checked_white);
+
+  Board board1 = Board("w a8wK h1bB c6wR");
+  checked_white = board1.is_check(true);
+
+  ASSERT_FALSE(checked_white);
+}
+
+TEST(BoardTests, TestIsCheckBishopObstacleOther) {
+  Board board = Board("w a8wK h1bB");
+  bool checked_white = board.is_check(true);
+
+  ASSERT_TRUE(checked_white);
+  Board board1 = Board("w a8wK h1bB c6bR");
+  checked_white = board1.is_check(true);
+
+  ASSERT_FALSE(checked_white);
+}
+
+TEST(BoardTests, TestApplyMove) {
+  Board board = Board(std::string("w a1wP"));
+  Move move = {{'a', '1'}, {'a', '2'}};
+  Board::BoardLayout blayout = board.get_layout();
+  ASSERT_TRUE(board.get_current_player() == Piece::PieceColor::White);
+  ASSERT_TRUE(blayout.layout.at(0).at(0).color == Piece::PieceColor::White);
+  ASSERT_TRUE(blayout.layout.at(0).at(0).piece_id == Piece::PieceID::Pawn);
+  board.apply_move(move);
+  blayout = board.get_layout();
+  ASSERT_TRUE(board.get_current_player() == Piece::PieceColor::Black);
+  ASSERT_TRUE(blayout.layout.at(0).at(1).color == Piece::PieceColor::White);
+  ASSERT_TRUE(blayout.layout.at(0).at(1).piece_id == Piece::PieceID::Pawn);
+  ASSERT_TRUE(blayout.layout.at(0).at(0).piece_id == Piece::PieceID::Empty);
+}
+TEST(BoardTests, TestApplyStoredMove) {
+  Board board("w a2bP");
+  StoredMove move = {{{'a', '1'}, {'a', '2'}}, Piece::PieceID::Pawn};
+  board.apply_move(move, false);
+  Board::BoardLayout blayout = board.get_layout();
+
+  ASSERT_TRUE(board.get_current_player() == Piece::PieceColor::Black);
+  ASSERT_TRUE(blayout.layout.at(0).at(1).color == Piece::PieceColor::White);
+  ASSERT_TRUE(blayout.layout.at(0).at(1).piece_id == Piece::PieceID::Pawn);
+  ASSERT_TRUE(blayout.layout.at(0).at(0).color == Piece::PieceColor::Black);
+  ASSERT_TRUE(blayout.layout.at(0).at(0).piece_id == Piece::PieceID::Pawn);
+}
+
+TEST(BoardTests, IsMovePossibleStartBoard) {
+  Board board;
+
+  ASSERT_TRUE(board.is_move_possible({{'a', '2'}, {'a', '3'}}));
+  ASSERT_TRUE(board.is_move_possible({{'a', '2'}, {'a', '4'}}));
+  ASSERT_FALSE(board.is_move_possible({{'a', '7'}, {'a', '6'}}));
+  ASSERT_TRUE(board.is_move_possible({{'b', '1'}, {'a', '3'}}));
+  ASSERT_TRUE(board.is_move_possible({{'b', '1'}, {'c', '3'}}));
+}
+
+TEST(BoardTests, IsMovePossibleCheckPawn) {
+  Board board("w c3wK c5bP");
+
+  ASSERT_TRUE(board.is_move_possible({{'c', '3'}, {'c', '4'}}));
+  ASSERT_FALSE(board.is_move_possible({{'c', '3'}, {'d', '4'}}));
+  ASSERT_FALSE(board.is_move_possible({{'c', '3'}, {'b', '4'}}));
+}
+
+TEST(BoardTests, IsMovePossibleCheckRook) {
+  Board board("b h6bK g6wR");
+
+  ASSERT_TRUE(board.is_move_possible({{'h', '6'}, {'g', '6'}}));
+  ASSERT_TRUE(board.is_move_possible({{'h', '6'}, {'h', '7'}}));
+  ASSERT_TRUE(board.is_move_possible({{'h', '6'}, {'h', '5'}}));
+  ASSERT_FALSE(board.is_move_possible({{'h', '6'}, {'g', '5'}}));
+  ASSERT_FALSE(board.is_move_possible({{'h', '6'}, {'g', '7'}}));
+}
+
+TEST(BoardTests, IsMovePossiblePawnBeat) {
+  Board board("b a1bK c7bP d6wP");
+
+  ASSERT_TRUE(board.is_move_possible({{'c', '7'}, {'c', '6'}}));
+  ASSERT_TRUE(board.is_move_possible({{'c', '7'}, {'d', '6'}}));
+  ASSERT_FALSE(board.is_move_possible({{'c', '7'}, {'b', '6'}}));
+  ASSERT_TRUE(board.is_move_possible({{'c', '7'}, {'c', '5'}}));
+}
+
+TEST(BoardTests, IsMovePossibleKingBeat) {
+  Board board("w d3wK c3bP e3bP c4bR");
+
+  ASSERT_TRUE(board.is_move_possible({{'d', '3'}, {'e', '3'}}));
+  ASSERT_FALSE(board.is_move_possible({{'d', '3'}, {'c', '3'}}));
+  ASSERT_FALSE(board.is_move_possible({{'d', '3'}, {'d', '4'}}));
+  ASSERT_TRUE(board.is_move_possible({{'d', '3'}, {'c', '4'}}));
+  ASSERT_FALSE(board.is_move_possible({{'d', '3'}, {'d', '2'}}));
+}
+
+TEST(BoardTests, IsMovePossibleSelfBeat) {
+  Board board("w a1wK b3wR b4wR");
+
+  ASSERT_FALSE(board.is_move_possible({{'b', '3'}, {'b', '4'}}));
+}
+
+TEST(BoardTests, GetAllPossibleStart) {
+  Board board;
+
+  auto possible = board.get_possible_moves();
+  ASSERT_EQ(possible.size(), 20);
+}
+
+TEST(BoardTests, GetAllPossibleOne) {
+  Board board("w d4wK e6bR c6bR a5bQ");
+
+  auto possible = board.get_possible_moves();
+
+  ASSERT_EQ(possible.size(), 1);
+  ASSERT_TRUE(possible.at(0).to == Coordinates({'d', '3'}));
 }
