@@ -13,5 +13,3 @@ public:
 private:
   static const std::map<Piece::PieceID, std::string> text_map;
 };
-
-std::string print(bool temp, Piece::PieceColor color);
