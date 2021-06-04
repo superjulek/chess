@@ -99,7 +99,7 @@ TEST(GameTests, GetMoveAI)
 {
   AIPlayer AI(Piece::PieceColor::Black);
   Board b("w a1wK b8bR c6bK");
-  Move mv = AI.get_move(b, true);
+  Move mv = AI.get_move(b, false);
   ASSERT_EQ(mv.to.file, 0);
   ASSERT_EQ(mv.to.rank, 1);
 }

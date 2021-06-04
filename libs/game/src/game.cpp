@@ -60,12 +60,12 @@ void Game::next_move() {
     throw std::runtime_error("Cannot move in preview mode");
   }
   Move move;
-
+  bool retry = false;
   while (true) {
     if (board->get_current_player() == Piece::PieceColor::White) {
-      player_white->get_move(*board, true);
+      player_white->get_move(*board, retry);
     } else {
-      player_black->get_move(*board, true);
+      player_black->get_move(*board, retry);
     }
     if (board->is_move_possible(move)) {
       Piece::PieceID captured_piece =
@@ -74,6 +74,7 @@ void Game::next_move() {
       past_moves.push_back({move, captured_piece});
       break;
     }
+    retry = true;
     throw std::runtime_error(
         "Move not possible"); // TODO: prompt for next moves
   }
