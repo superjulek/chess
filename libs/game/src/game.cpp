@@ -106,3 +106,7 @@ Game::GameState Game::get_state() {
   }
   return GameState::Normal;
 }
+
+std::unique_ptr<Game> Game::clone_current() {
+  throw std::runtime_error("Cloning game not implemented"); // TODO
+}
