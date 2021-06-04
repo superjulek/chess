@@ -1,6 +1,7 @@
 #include "viewers/console_viewer.h"
 
 #include <iostream>
+#include <stdexcept>
 #include <stdlib.h>
 #include <string>
 
@@ -61,13 +62,17 @@ void ConsoleViewer::display_text(const std::string &text
 void ConsoleViewer::clear_board() {
 #ifdef __linux__
   try {
-    std::system("clear");
+    if (std::system("clear") != 0) {
+      throw std::runtime_error("Cleaning screen failed");
+    };
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';
   }
 #elif _WIN32
   try {
-    std::system("CLS");
+    if (std::system("CLS") != 0) {
+      throw std::runtime_error("Cleaning screen failed");
+    };
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';
   }

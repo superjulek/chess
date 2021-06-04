@@ -190,6 +190,7 @@ found:
         if (piece_checked == Piece::PieceID::Empty) {
           file_checked += file_dir;
           rank_checked += rank_dir;
+          first = false;
           continue;
         }
         if (color_checked == tested_player) {
@@ -208,7 +209,6 @@ found:
         if (piece_checked == Piece::PieceID::King && first) {
           return true;
         }
-        first = false;
         // Other opponent's piece
         break;
       }
@@ -217,7 +217,7 @@ found:
   return false;
 }
 
-bool Board::is_constrain_ok(const PossibleMove::Constrain &constrain) {
+bool Board::is_constrain_ok(const PossibleMove::Constrain &constrain) const{
   Piece::PieceID piece_id = fields.at(constrain.coords.file)
                                 .at(constrain.coords.rank)
                                 ->get_piece_id();
@@ -298,7 +298,7 @@ void Board::apply_move(const StoredMove &move, bool forward) {
   }
 }
 
-std::vector<PossibleMove> Board::get_possible_moves() { // NOLINT
+std::vector<PossibleMove> Board::get_possible_moves() const { // NOLINT
 
   std::vector<PossibleMove> possible_moves;
   for (size_t file = 0; file < chess_size; ++file) {
@@ -341,4 +341,22 @@ std::vector<PossibleMove> Board::get_possible_moves() { // NOLINT
     }
   }
   return possible_moves;
+}
+
+bool Board::is_checkmate() {
+  return is_check(true) && get_possible_moves().empty();
+}
+
+bool operator==(const Board::BoardLayout &bl1, const Board::BoardLayout &bl2) {
+  for (size_t file = 0; file < chess_size; ++file) {
+    for (size_t rank = 0; rank < chess_size; ++rank) {
+      if (bl1.layout.at(file).at(rank).piece_id !=
+              bl2.layout.at(file).at(rank).piece_id ||
+          bl1.layout.at(file).at(rank).color !=
+              bl2.layout.at(file).at(rank).color) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
