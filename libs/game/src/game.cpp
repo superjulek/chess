@@ -67,6 +67,7 @@ void Game::next_move() {
     } else {
       player_black->get_move(*board, retry);
     }
+    retry = true;
     if (board->is_move_possible(move)) {
       Piece::PieceID captured_piece =
           board->get_layout().layout.at(move.to.file).at(move.to.rank).piece_id;
@@ -74,7 +75,6 @@ void Game::next_move() {
       past_moves.push_back({move, captured_piece});
       break;
     }
-    retry = true;
     throw std::runtime_error(
         "Move not possible"); // TODO: prompt for next moves
   }

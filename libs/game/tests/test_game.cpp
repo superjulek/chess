@@ -7,8 +7,7 @@
 
 // Game
 
-TEST(GameTests, DepthPreviewTest)
-{
+TEST(GameTests, DepthPreviewTest) {
   Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
                    std::make_unique<AIPlayer>(Piece::PieceColor::Black));
   Board::BoardLayout layout0 = game.get_board_layout();
@@ -51,8 +50,7 @@ TEST(GameTests, DepthPreviewTest)
   ASSERT_EQ(layout2, layout5);
 }
 
-TEST(GameTests, GetStateNormalTest)
-{
+TEST(GameTests, GetStateNormalTest) {
   Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
                    std::make_unique<AIPlayer>(Piece::PieceColor::Black),
                    std::make_unique<Board>("w a1wK h8bK"));
@@ -60,8 +58,7 @@ TEST(GameTests, GetStateNormalTest)
   ASSERT_EQ(game.get_state(), Game::GameState::Normal);
 }
 
-TEST(GameTests, GetStatePatTest)
-{
+TEST(GameTests, GetStatePatTest) {
   Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
                    std::make_unique<AIPlayer>(Piece::PieceColor::Black),
                    std::make_unique<Board>("w a1wK h8bK b2bR c3bP"));
@@ -69,8 +66,7 @@ TEST(GameTests, GetStatePatTest)
   ASSERT_EQ(game.get_state(), Game::GameState::Pat);
 }
 
-TEST(GameTests, GetStateCheckTest)
-{
+TEST(GameTests, GetStateCheckTest) {
   Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
                    std::make_unique<AIPlayer>(Piece::PieceColor::Black),
                    std::make_unique<Board>("w a1wK h8bK b1bR"));
@@ -78,8 +74,7 @@ TEST(GameTests, GetStateCheckTest)
   ASSERT_EQ(game.get_state(), Game::GameState::Check);
 }
 
-TEST(GameTests, GetStateCheckmateTest)
-{
+TEST(GameTests, GetStateCheckmateTest) {
   Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
                    std::make_unique<AIPlayer>(Piece::PieceColor::Black),
                    std::make_unique<Board>("w a1wK h8bK b2bR c3bP a8bR"));
@@ -89,14 +84,12 @@ TEST(GameTests, GetStateCheckmateTest)
 
 // AI player
 
-TEST(GameTests, Create_AI)
-{
+TEST(GameTests, Create_AI) {
   AIPlayer AI(Piece::PieceColor::Black);
   ASSERT_EQ(AI.get_color(), Piece::PieceColor::Black);
 }
 
-TEST(GameTests, GetMoveAI)
-{
+TEST(GameTests, GetMoveAI) {
   AIPlayer AI(Piece::PieceColor::Black);
   Board b("w a1wK b8bR c6bK");
   Move mv = AI.get_move(b, false);
