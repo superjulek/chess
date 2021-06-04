@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.1 (2021-06-05) jneuman
+- Ładowacz gry
+- Kontroler gry
+- Komunikator konsolowy
+- Runner sterujący grą
+- Możliwość rozgrywki
+
+## 0.0.8 (2021-06-04) jneuman arybski
+- Obsługa gry i graczy
+- Zaślepka silnika AI - losowanie ruchów
+
+## 0.0.7 (2021-06-04) jneuman arybski
+- Prosty interfejs graficzny w konsoli
+
 ## 0.0.6 (2021-05-16) jneuman
 - Dodanie interfejsu figury
 - Dodanie pionka
