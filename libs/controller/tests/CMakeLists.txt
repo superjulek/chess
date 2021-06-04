@@ -11,7 +11,7 @@ add_executable(${MODULE_NAME} ${SOURCES})
 
 target_link_libraries(
     ${MODULE_NAME}
-    PRIVATE
+   PUBLIC
     gtest_main
     Chess::chess
     Game::game

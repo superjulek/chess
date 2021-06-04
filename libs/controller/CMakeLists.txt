@@ -39,7 +39,7 @@ add_subdirectory(tests)
 
 target_link_libraries(
     ${LIBRARY_NAME}
-    PRIVATE
+   PUBLIC
     View::view
     Chess::chess
     Game::game

@@ -57,3 +57,24 @@ void Controller::next_move() {
   }
   loader.get_game_ptr()->next_move();
 }
+
+void Controller::abandon_game() {
+  if (!is_game_loaded()) {
+    throw std::runtime_error("Game not loaded");
+  }
+  loader.drop_game();
+}
+
+void Controller::save_game(const std::string &path) {
+  if (!is_game_loaded()) {
+    throw std::runtime_error("Game not loaded");
+  }
+  loader.store_game_to_file(path);
+}
+void Controller::load_game(const std::string &path) {
+  if (is_game_loaded()) {
+    throw std::runtime_error("Game already loaded, abandon first");
+  }
+
+  loader.load_game_from_file(path);
+}

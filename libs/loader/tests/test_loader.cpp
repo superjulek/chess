@@ -18,3 +18,12 @@ TEST(LoaderTests, TestStartingGame) {
             Piece::PieceColor::White);
   ASSERT_EQ(my_loader.get_game_ptr()->get_state(), Game::GameState::Normal);
 }
+
+TEST(LoaderTests, DropGame) {
+  Loader my_loader;
+  my_loader.create_new_game(
+      std::make_unique<AIPlayer>(Piece::PieceColor::White),
+      std::make_unique<AIPlayer>(Piece::PieceColor::Black));
+  my_loader.drop_game();
+  ASSERT_FALSE(my_loader.is_game_loaded());
+}

@@ -46,3 +46,14 @@ TEST(ControllerTests, PreviewTest) {
   my_controller.enter_preview();
   ASSERT_TRUE(my_controller.is_preview());
 }
+
+TEST(ControllerTests, AbandonGameTest) {
+  Controller my_controller = Controller(std::make_unique<ConsoleViewer>());
+
+  my_controller.start_game(
+      std::make_unique<AIPlayer>(Piece::PieceColor::White),
+      std::make_unique<AIPlayer>(Piece::PieceColor::Black));
+  ASSERT_TRUE(my_controller.is_game_loaded());
+  my_controller.abandon_game();
+  ASSERT_FALSE(my_controller.is_game_loaded());
+}

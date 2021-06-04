@@ -14,11 +14,12 @@ add_executable(${MODULE_NAME} ${SOURCES})
 
 target_link_libraries(
     ${MODULE_NAME}
-    PRIVATE
+   PUBLIC
     Logger::logger
     Controller::controller
     View::view
     Chess::chess
     Game::game
     Loader::loader
+    Runner::runner
 )

@@ -63,9 +63,9 @@ void Game::next_move() {
   bool retry = false;
   while (true) {
     if (board->get_current_player() == Piece::PieceColor::White) {
-      player_white->get_move(*board, retry);
+      move = player_white->get_move(*board, retry);
     } else {
-      player_black->get_move(*board, retry);
+      move = player_black->get_move(*board, retry);
     }
     retry = true;
     if (board->is_move_possible(move)) {

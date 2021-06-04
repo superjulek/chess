@@ -48,7 +48,7 @@ void Communicator::communicate() {
     }
     throw std::runtime_error("Command \"" + given_cmd + "\" not found");
   } catch (const std::exception &exc) {
-    throw std::runtime_error(std::string("Error running command: ") +
+    throw std::runtime_error(std::string("Running command failed: ") +
                              exc.what());
   }
 }
