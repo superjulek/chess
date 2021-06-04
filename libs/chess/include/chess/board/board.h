@@ -39,7 +39,7 @@ public:
   };
   BoardLayout get_layout();
   // For current player
-  std::vector<PossibleMove> get_possible_moves();
+  std::vector<PossibleMove> get_possible_moves() const;
   bool is_move_possible(const Move &move);
   /**
    * Apply history move
@@ -59,7 +59,7 @@ private:
   /* .at(file).at(rank) */
   std::array<std::array<std::unique_ptr<Piece>, chess_size>, chess_size> fields;
   Piece::PieceColor current_player;
-  bool is_constrain_ok(const PossibleMove::Constrain &constrain);
+  bool is_constrain_ok(const PossibleMove::Constrain &constrain) const;
 
 public:
   inline Piece::PieceColor get_current_player() { return current_player; }

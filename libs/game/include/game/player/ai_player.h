@@ -8,6 +8,6 @@ private:
 
 public:
   inline AIPlayer(Piece::PieceColor color) : color(color) {}
-  virtual Move get_move(const Board &board);
+  virtual Move get_move(const Board &board, bool retry);
   inline virtual Piece::PieceColor get_color() { return color; }
 };

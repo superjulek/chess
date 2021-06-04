@@ -63,9 +63,9 @@ void Game::next_move() {
 
   while (true) {
     if (board->get_current_player() == Piece::PieceColor::White) {
-      player_white->get_move(*board);
+      player_white->get_move(*board, true);
     } else {
-      player_black->get_move(*board);
+      player_black->get_move(*board, true);
     }
     if (board->is_move_possible(move)) {
       Piece::PieceID captured_piece =
