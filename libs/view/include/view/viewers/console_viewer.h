@@ -11,6 +11,5 @@ public:
   void clear_board() override;
 
 private:
-  static const std::map<Piece::PieceID, std::string> white_map;
-  static const std::map<Piece::PieceID, std::string> black_map;
+  static const std::map<Piece::PieceID, std::string> text_map;
 };
