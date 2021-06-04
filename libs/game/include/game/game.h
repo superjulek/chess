@@ -37,6 +37,7 @@ public:
   inline size_t get_current_depth() { return current_depth; }
   void enter_preview();
   void leave_preview();
+  inline bool is_preview() { return preview; }
   void step_back(size_t steps);
   void step_forward(size_t steps);
   GameState get_state();

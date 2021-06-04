@@ -27,3 +27,5 @@ Game *Loader::get_game_ptr() {
   }
   throw std::runtime_error("Game not loaded");
 }
+
+bool Loader::is_game_loaded() { return (game != nullptr); }

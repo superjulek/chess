@@ -11,6 +11,7 @@ public:
   void load_game_from_file(const std::string &path);
   void start_from_current_preview();
   Game *get_game_ptr();
+  bool is_game_loaded();
 
 private:
   std::unique_ptr<Game> game;
