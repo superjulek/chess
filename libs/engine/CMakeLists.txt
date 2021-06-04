@@ -23,7 +23,7 @@ set(CMAKE_CXX_CLANG_TIDY clang-tidy -checks=-*,readability-*)
 
 add_library(${LIBRARY_NAME} ${SOURCES} ${HEADERS})
 
-add_library(Game::${LIBRARY_NAME} ALIAS ${LIBRARY_NAME})
+add_library(Engine::${LIBRARY_NAME} ALIAS ${LIBRARY_NAME})
 
 target_include_directories(${LIBRARY_NAME} PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${LIBRARY_NAME}>
@@ -39,7 +39,8 @@ add_subdirectory(tests)
 
 target_link_libraries(
     ${LIBRARY_NAME}
-    PRIVATE
+    PUBLIC
     Chess::chess
     Game::game
+    Engine::engine
 )

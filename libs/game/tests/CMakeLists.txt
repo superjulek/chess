@@ -15,6 +15,7 @@ target_link_libraries(
     gtest_main
     Chess::chess
     Game::game
+    Engine::engine
 )
 
 include(GoogleTest)

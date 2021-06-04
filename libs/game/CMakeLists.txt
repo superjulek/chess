@@ -46,4 +46,5 @@ target_link_libraries(
     ${LIBRARY_NAME}
     PRIVATE
     Chess::chess
+    Engine::engine
 )

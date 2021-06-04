@@ -1,5 +1,7 @@
 #include "player/ai_player.h"
+#include <engine/engine.h>
 
-Move AIPlayer::get_move(const Board &board __attribute__((unused)), bool retry __attribute__((unused))) {
-  return Move{{'a', '1'}, {'a', '2'}};
+
+Move AIPlayer::get_move(const Board &board, bool retry __attribute__((unused))) {
+  return Engine::get_instance().get_move(board);
 }
