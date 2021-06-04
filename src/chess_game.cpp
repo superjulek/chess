@@ -1,4 +1,6 @@
 #include "config.h"
+
+#include <controller/controller.h>
 #include <logger/channels/console_logger.h>
 #include <logger/channels/file_logger.h>
 #include <logger/logger.h>
@@ -19,5 +21,6 @@ int main() {
                              std::string("Starting at ") + std::ctime(&now));
   Logger::get_instance().log(LogSev::Info, "Program launched");
   Logger::get_instance().log(LogSev::Info, "Program terminating");
+
   return 0;
 }

@@ -16,4 +16,9 @@ target_link_libraries(
     ${MODULE_NAME}
     PRIVATE
     Logger::logger
+    Controller::controller
+    View::view
+    Chess::chess
+    Game::game
+    Loader::loader
 )
