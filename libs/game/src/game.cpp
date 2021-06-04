@@ -4,6 +4,11 @@ Game::Game(std::unique_ptr<IPlayer> white, std::unique_ptr<IPlayer> black)
     : current_depth(0), preview(false), board(std::make_unique<Board>()),
       player_white(std::move(white)), player_black(std::move(black)) {}
 
+Game::Game(std::unique_ptr<IPlayer> white, std::unique_ptr<IPlayer> black,
+           std::unique_ptr<Board> board)
+    : current_depth(0), preview(false), board(std::move(board)),
+      player_white(std::move(white)), player_black(std::move(black)) {}
+
 Board::BoardLayout Game::get_board_layout() { return board->get_layout(); }
 
 void Game::enter_preview() {
@@ -69,6 +74,8 @@ void Game::next_move() {
       past_moves.push_back({move, captured_piece});
       break;
     }
+    throw std::runtime_error(
+        "Move not possible"); // TODO: prompt for next moves
   }
 }
 
@@ -84,4 +91,17 @@ void Game::make_move(Move move) {
   } else {
     throw std::runtime_error("Applied wrong move");
   }
+}
+
+Game::GameState Game::get_state() {
+  if (board->get_possible_moves().empty()) {
+    if (board->is_check(true)) {
+      return GameState::Checkmate;
+    }
+    return GameState::Pat;
+  }
+  if (board->is_check(true)) {
+    return GameState::Check;
+  }
+  return GameState::Normal;
 }

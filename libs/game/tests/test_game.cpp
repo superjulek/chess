@@ -7,7 +7,7 @@
 
 // Game
 
-TEST(GamaTests, DepthPreviewTest) {
+TEST(GameTests, DepthPreviewTest) {
   Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
                    std::make_unique<AIPlayer>(Piece::PieceColor::Black));
   Board::BoardLayout layout0 = game.get_board_layout();
@@ -48,4 +48,36 @@ TEST(GamaTests, DepthPreviewTest) {
   ASSERT_EQ(game.get_max_depth(), 2);
   ASSERT_EQ(game.get_current_depth(), 0);
   ASSERT_EQ(layout2, layout5);
+}
+
+TEST(GameTests, GetStateNormalTest) {
+  Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
+                   std::make_unique<AIPlayer>(Piece::PieceColor::Black),
+                   std::make_unique<Board>("w a1wK h8bK"));
+
+  ASSERT_EQ(game.get_state(), Game::GameState::Normal);
+}
+
+TEST(GameTests, GetStatePatTest) {
+  Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
+                   std::make_unique<AIPlayer>(Piece::PieceColor::Black),
+                   std::make_unique<Board>("w a1wK h8bK b2bR c3bP"));
+
+  ASSERT_EQ(game.get_state(), Game::GameState::Pat);
+}
+
+TEST(GameTests, GetStateCheckTest) {
+  Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
+                   std::make_unique<AIPlayer>(Piece::PieceColor::Black),
+                   std::make_unique<Board>("w a1wK h8bK b1bR"));
+
+  ASSERT_EQ(game.get_state(), Game::GameState::Check);
+}
+
+TEST(GameTests, GetStateCheckmateTest) {
+  Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
+                   std::make_unique<AIPlayer>(Piece::PieceColor::Black),
+                   std::make_unique<Board>("w a1wK h8bK b2bR c3bP a8bR"));
+
+  ASSERT_EQ(game.get_state(), Game::GameState::Checkmate);
 }
