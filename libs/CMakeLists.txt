@@ -1,6 +1,6 @@
 add_subdirectory(chess)
-#add_subdirectory(controller)
 add_subdirectory(engine)
+add_subdirectory(controller)
 add_subdirectory(game)
 add_subdirectory(loader)
 add_subdirectory(logger)
