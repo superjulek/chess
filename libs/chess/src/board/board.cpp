@@ -190,6 +190,7 @@ found:
         if (piece_checked == Piece::PieceID::Empty) {
           file_checked += file_dir;
           rank_checked += rank_dir;
+          first = false;
           continue;
         }
         if (color_checked == tested_player) {
@@ -208,7 +209,6 @@ found:
         if (piece_checked == Piece::PieceID::King && first) {
           return true;
         }
-        first = false;
         // Other opponent's piece
         break;
       }

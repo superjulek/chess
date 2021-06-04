@@ -19,11 +19,17 @@ private:
 public:
   enum class GameState {
     Normal,
-    Won,
+    Checkmate,
+    Check,
     Pat,
   };
   Game(std::unique_ptr<IPlayer> white, std::unique_ptr<IPlayer> black);
+  Game(std::unique_ptr<IPlayer> white, std::unique_ptr<IPlayer> black,
+       std::unique_ptr<Board> board);
   Board::BoardLayout get_board_layout();
+  inline Piece::PieceColor get_current_player_color() {
+    return board->get_current_player();
+  }
   inline size_t get_max_depth() { return past_moves.size(); }
   inline size_t get_current_depth() { return current_depth; }
   void enter_preview();
