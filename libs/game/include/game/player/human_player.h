@@ -10,5 +10,5 @@ private:
 public:
   inline HumanPlayer(std::function<void(const Board &)> mov_fun)
       : moving_fun(mov_fun) {}
-  Move get_move(const Board &board, bool retry);
+  Move get_move(const Board &board);
 };

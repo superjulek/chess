@@ -217,7 +217,7 @@ found:
   return false;
 }
 
-bool Board::is_constrain_ok(const PossibleMove::Constrain &constrain) const{
+bool Board::is_constrain_ok(const PossibleMove::Constrain &constrain) {
   Piece::PieceID piece_id = fields.at(constrain.coords.file)
                                 .at(constrain.coords.rank)
                                 ->get_piece_id();
@@ -298,7 +298,7 @@ void Board::apply_move(const StoredMove &move, bool forward) {
   }
 }
 
-std::vector<PossibleMove> Board::get_possible_moves() const { // NOLINT
+std::vector<PossibleMove> Board::get_possible_moves() { // NOLINT
 
   std::vector<PossibleMove> possible_moves;
   for (size_t file = 0; file < chess_size; ++file) {
