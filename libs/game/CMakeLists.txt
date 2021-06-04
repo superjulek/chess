@@ -44,7 +44,7 @@ add_subdirectory(tests)
 
 target_link_libraries(
     ${LIBRARY_NAME}
-    PRIVATE
+   PUBLIC
     Chess::chess
     Engine::engine
 )

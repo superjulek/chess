@@ -63,9 +63,9 @@ void Game::next_move() {
   bool retry = false;
   while (true) {
     if (board->get_current_player() == Piece::PieceColor::White) {
-      player_white->get_move(*board, retry);
+      move = player_white->get_move(*board, retry);
     } else {
-      player_black->get_move(*board, retry);
+      move = player_black->get_move(*board, retry);
     }
     retry = true;
     if (board->is_move_possible(move)) {
@@ -105,4 +105,8 @@ Game::GameState Game::get_state() {
     return GameState::Check;
   }
   return GameState::Normal;
+}
+
+std::unique_ptr<Game> Game::clone_current() {
+  throw std::runtime_error("Cloning game not implemented"); // TODO
 }

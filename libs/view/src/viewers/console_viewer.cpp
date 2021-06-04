@@ -54,10 +54,7 @@ void ConsoleViewer::display_board(const Board::BoardLayout &board_layout) {
   std::cout << board_to_print;
 }
 
-void ConsoleViewer::display_text(const std::string &text
-                                 __attribute__((unused))) {
-  // TODO
-}
+void ConsoleViewer::display_text(const std::string &text) { std::cout << text; }
 
 void ConsoleViewer::clear_board() {
 #ifdef __linux__

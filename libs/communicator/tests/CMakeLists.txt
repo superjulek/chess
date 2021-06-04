@@ -1,10 +1,10 @@
-set(MODULE_NAME LoggerTests)
+set(MODULE_NAME CommunicatorTests)
 
 set(HEADERS
 )
 
 set(SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_logger.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_communicator.cpp
 )
 
 add_executable(${MODULE_NAME} ${SOURCES})
@@ -14,7 +14,7 @@ target_link_libraries(
     ${MODULE_NAME}
    PUBLIC
     gtest_main
-    Logger::logger
+    Communicator::communicator
 )
 
 include(GoogleTest)
