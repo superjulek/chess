@@ -115,15 +115,17 @@ Board::Board(const std::string &notation) {
 bool Board::is_pat() {
   /* Pat beacues lack of material
   On the board only 2 kings, or for each player 1 King 1 Knight/Bishop */
-  int black = 0, white = 0;
+  int black = 0;
+  int white = 0;
   for (size_t file = 0; file < chess_size; ++file) {
     for (size_t rank = 0; rank < chess_size; ++rank) {
       if (fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Pawn ||
           fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Queen ||
           fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Rook) {
         return false;
-      } else if (fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Knight ||
-                 fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Bishop) {
+      }
+      if (fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Knight ||
+          fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Bishop) {
         if (fields.at(file).at(rank)->get_piece_color() == Piece::PieceColor::Black) {
           black += 1;
         } else {

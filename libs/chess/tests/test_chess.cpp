@@ -931,7 +931,7 @@ TEST(BoardTest, mv_from_string) {
   ASSERT_EQ(mv.to.rank, 1);
 }
 TEST(BoardTest, str_from_move) {
-  Move mv = {{1, 1}, {3, 7}};
+  Move mv = {{1, 1}, {3, 7}}; //NOLINT
   std::string ret = move_to_str(mv);
   ASSERT_EQ("b2d8", ret);
 }
