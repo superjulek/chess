@@ -21,7 +21,8 @@ void Loader::store_game_to_file(const std::string &path) {
   myfile.close();
 }
 
-void Loader::load_game_from_file(const std::string &path) {
+void Loader::load_game_from_file(const std::string &path, std::unique_ptr<IPlayer> white,
+                       std::unique_ptr<IPlayer> black) {
   std::ifstream myfile;
   myfile.open(path);
   std::string file_content;
@@ -31,12 +32,14 @@ void Loader::load_game_from_file(const std::string &path) {
   while (!myfile.eof()) {
     myfile >> file_content;
   }
+  myfile.close();
   std::vector<StoredMove> past_moves;
   while (file_content.size()) {
     Move mv = move_from_string(file_content.substr(0, 4));
     past_moves.push_back({mv, Piece::PieceID::Empty});
     file_content.erase(0, 4);
   }
+  game.reset(new Game(std::move(white), std::move(black)));
   game->set_past_moves(past_moves);
 }
 

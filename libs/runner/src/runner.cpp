@@ -135,7 +135,11 @@ Communicator Runner::get_start_communicator() {
       .options_map = {},
       .action = {[&](const Command &cmd) {
         std::string path = cmd.options_map.at("-path");
-        this->controller.load_game(path);
+        std::unique_ptr<IPlayer> player_black = std::make_unique<AIPlayer>(Piece::PieceColor::Black);
+        std::unique_ptr<IPlayer> player_white = std::make_unique<AIPlayer>(Piece::PieceColor::White);
+
+        this->controller.load_game(path, std::move(player_white),
+                                    std::move(player_black));
       }},
   });
   return com;

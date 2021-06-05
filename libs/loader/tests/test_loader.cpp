@@ -53,6 +53,7 @@ TEST(LoaderTests, TestSavingGame) {
   isfile.open("./plik.txt");
   if (isfile) {
     file_exists = true;
+    isfile.close();
   }
   ASSERT_TRUE(file_exists);
 }
@@ -60,12 +61,11 @@ TEST(LoaderTests, TestSavingGame) {
 TEST(LoaderTests, TestLoadingGame) {
   Loader my_loader;
   Board start_board;
-  my_loader.create_new_game(
-      std::make_unique<AIPlayer>(Piece::PieceColor::White),
+  my_loader.load_game_from_file("./plik.txt", std::make_unique<AIPlayer>(Piece::PieceColor::White),
       std::make_unique<AIPlayer>(Piece::PieceColor::Black));
-  my_loader.load_game_from_file("./plik.txt");
   std::ifstream isfile;
   isfile.open("./plik.txt");
+  isfile.close();
   if (isfile) {
     remove("./plik.txt");
   }

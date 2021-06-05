@@ -47,5 +47,5 @@ class Game {
   /* For testing */
   void make_move(Move move);
   std::unique_ptr<Game> clone_current();
-  std::vector<StoredMove> get_past_moves() { return past_moves; }
+  inline std::vector<StoredMove> get_past_moves() { return past_moves; }
 };
