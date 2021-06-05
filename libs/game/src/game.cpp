@@ -44,11 +44,7 @@ void Game::step_forward(size_t steps) {
   size_t total_depth = get_max_depth();
   if (current_depth >= steps) {
     for (size_t step = 0; step < steps; ++step) {
-      StoredMove move = past_moves.at(total_depth - current_depth + step);
-      board->apply_move(move, true);
-      Piece::PieceID captured_piece =
-          board->get_layout().layout.at(move.to.file).at(move.to.rank).piece_id;
-      past_moves.at(total_depth - current_depth + step).piece_captured = captured_piece;
+      board->apply_move(past_moves.at(total_depth - current_depth + step), true);
     }
     current_depth -= steps;
   } else {
@@ -81,7 +77,7 @@ void Game::next_move() {
   }
 }
 
-void Game::make_move(Move move) {
+void Game::make_move(const Move move) {
   if (preview) {
     throw std::runtime_error("Cannot move in preview mode");
   }
@@ -125,7 +121,4 @@ std::string Game::game_string() {
     std::cerr << e.what() << '\n';
     return "";
   }
-}
-void Game::set_past_moves(std::vector<StoredMove> past_moves) {
-  this->past_moves = std::move(past_moves);
 }

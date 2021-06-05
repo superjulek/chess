@@ -130,16 +130,6 @@ TEST(GameTests, GameString) {
   ASSERT_EQ(game.game_string(), "e2e4c7c6d2d4d7d5b1c3d5e4c3e4");
 }
 
-TEST(GameTests, SetPastMoves) {
-  Move mv = move_from_string("e2e4");
-  std::vector<StoredMove> vec;
-  vec.push_back({mv, Piece::PieceID::Empty});
-  Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
-                   std::make_unique<AIPlayer>(Piece::PieceColor::Black),
-                   std::make_unique<Board>());
-  game.set_past_moves(vec);
-  ASSERT_EQ(game.get_past_moves().size(), 1);
-}
 // AI player
 
 TEST(GameTests, Create_AI) {

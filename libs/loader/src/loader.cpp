@@ -40,7 +40,9 @@ void Loader::load_game_from_file(const std::string &path, std::unique_ptr<IPlaye
     file_content.erase(0, 4);
   }
   game.reset(new Game(std::move(white), std::move(black)));
-  game->set_past_moves(past_moves);
+  for (const auto& mv : past_moves) {
+    game->make_move(mv);
+  }
 }
 
 Game *Loader::get_game_ptr() {
