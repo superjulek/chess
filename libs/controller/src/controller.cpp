@@ -71,10 +71,11 @@ void Controller::save_game(const std::string &path) {
   }
   loader.store_game_to_file(path);
 }
-void Controller::load_game(const std::string &path) {
+void Controller::load_game(const std::string &path, std::unique_ptr<IPlayer> white,
+                       std::unique_ptr<IPlayer> black) {
   if (is_game_loaded()) {
     throw std::runtime_error("Game already loaded, abandon first");
   }
 
-  loader.load_game_from_file(path);
+  loader.load_game_from_file(path, std::move(white), std::move(black));
 }

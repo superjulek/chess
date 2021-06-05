@@ -1,6 +1,5 @@
 #include <game/game.h>
 #include <game/player/ai_player.h>
-
 #include <gtest/gtest.h>
 
 #include <iostream>
@@ -53,7 +52,7 @@ TEST(GameTests, DepthPreviewTest) {
 TEST(GameTests, GetStateNormalTest) {
   Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
                    std::make_unique<AIPlayer>(Piece::PieceColor::Black),
-                   std::make_unique<Board>("w a1wK h8bK"));
+                   std::make_unique<Board>("w a1wK h8bK d2bQ"));
 
   ASSERT_EQ(game.get_state(), Game::GameState::Normal);
 }
@@ -62,6 +61,13 @@ TEST(GameTests, GetStatePatTest) {
   Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
                    std::make_unique<AIPlayer>(Piece::PieceColor::Black),
                    std::make_unique<Board>("w a1wK h8bK b2bR c3bP"));
+
+  ASSERT_EQ(game.get_state(), Game::GameState::Pat);
+}
+TEST(GameTests, GetStatePatTest1) {
+  Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
+                   std::make_unique<AIPlayer>(Piece::PieceColor::Black),
+                   std::make_unique<Board>("w a1wK a3wK b6wB"));
 
   ASSERT_EQ(game.get_state(), Game::GameState::Pat);
 }
@@ -80,6 +86,48 @@ TEST(GameTests, GetStateCheckmateTest) {
                    std::make_unique<Board>("w a1wK h8bK b2bR c3bP a8bR"));
 
   ASSERT_EQ(game.get_state(), Game::GameState::Checkmate);
+}
+
+TEST(GameTests, PastMoves) {
+  Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
+                   std::make_unique<AIPlayer>(Piece::PieceColor::Black),
+                   std::make_unique<Board>());
+  Move mv = move_from_string("e2e4");
+  game.make_move(mv);
+  mv = move_from_string("c7c6");
+  game.make_move(mv);
+  mv = move_from_string("d2d4");
+  game.make_move(mv);
+  mv = move_from_string("d7d5");
+  game.make_move(mv);
+  mv = move_from_string("b1c3");
+  game.make_move(mv);
+  mv = move_from_string("d5e4");
+  game.make_move(mv);
+  mv = move_from_string("c3e4");
+  game.make_move(mv);
+  ASSERT_EQ(game.get_past_moves().size(), 7);
+}
+
+TEST(GameTests, GameString) {
+  Game game = Game(std::make_unique<AIPlayer>(Piece::PieceColor::White),
+                   std::make_unique<AIPlayer>(Piece::PieceColor::Black),
+                   std::make_unique<Board>());
+  Move mv = move_from_string("e2e4");
+  game.make_move(mv);
+  mv = move_from_string("c7c6");
+  game.make_move(mv);
+  mv = move_from_string("d2d4");
+  game.make_move(mv);
+  mv = move_from_string("d7d5");
+  game.make_move(mv);
+  mv = move_from_string("b1c3");
+  game.make_move(mv);
+  mv = move_from_string("d5e4");
+  game.make_move(mv);
+  mv = move_from_string("c3e4");
+  game.make_move(mv);
+  ASSERT_EQ(game.game_string(), "e2e4c7c6d2d4d7d5b1c3d5e4c3e4");
 }
 
 // AI player

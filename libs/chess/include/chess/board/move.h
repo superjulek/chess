@@ -1,9 +1,10 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "../pieces/piece.h"
 #include "coordinates.h"
-
-#include <vector>
 
 struct Move {
   Coordinates from;

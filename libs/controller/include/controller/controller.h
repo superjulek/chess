@@ -19,7 +19,8 @@ public:
   void leave_preview();
   void abandon_game();
   void save_game(const std::string &path);
-  void load_game(const std::string &path);
+  void load_game(const std::string &path, std::unique_ptr<IPlayer> white,
+                       std::unique_ptr<IPlayer> black);
   // Queries for state
   void next_move();
   bool is_game_loaded();

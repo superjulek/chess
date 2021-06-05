@@ -1,6 +1,5 @@
 #include <chess/board/board.h>
 #include <chess/board/coordinates.h>
-
 #include <gtest/gtest.h>
 
 #include <iostream>
@@ -19,7 +18,7 @@ TEST(CoordinatesTests, OutputTest) {
   local.str("");
   local.clear();
 
-  coords = {0, 7}; // NOLINT
+  coords = {0, 7};  // NOLINT
   std::cout << coords;
   ASSERT_STREQ(local.str().c_str(), "a8");
 
@@ -260,7 +259,6 @@ TEST(RookTests, PossibleMoveTestRe4) {
     } else if (move.to == Coordinates('f', '4')) {
       c2++;
       ASSERT_EQ(move.constrains.size(), 0);
-
     } else if (move.to == Coordinates('e', '1')) {
       c3++;
       ASSERT_EQ(move.constrains.size(), 2);
@@ -300,7 +298,6 @@ TEST(RookTests, PossibleMoveTestRh8) {
       ASSERT_EQ(move.constrains.size(), 6);
       ASSERT_TRUE(move.constrains.at(5).coords == Coordinates('h', '2'));
       ASSERT_TRUE(move.constrains.at(0).coords == Coordinates('h', '7'));
-
     } else if (move.to == Coordinates('a', '8')) {
       c3++;
       ASSERT_EQ(move.constrains.size(), 6);
@@ -354,7 +351,6 @@ TEST(BishopTests, PossibleMoveTestBb1) {
     } else if (move.to == Coordinates('a', '2')) {
       c2++;
       ASSERT_EQ(move.constrains.size(), 0);
-
     } else if (move.to == Coordinates('h', '7')) {
       c3++;
       ASSERT_EQ(move.constrains.size(), 5);
@@ -390,7 +386,6 @@ TEST(BishopTests, PossibleMoveTestBd4) {
       c2++;
       ASSERT_EQ(move.constrains.size(), 3);
       ASSERT_TRUE(move.constrains.at(2).coords == Coordinates('g', '7'));
-
     } else if (move.to == Coordinates('a', '7')) {
       c3++;
       ASSERT_EQ(move.constrains.size(), 2);
@@ -434,7 +429,6 @@ TEST(KingTests, PossibleMoveTestKa1) {
     } else if (move.to == Coordinates('b', '2')) {
       c2++;
       ASSERT_EQ(move.constrains.size(), 0);
-
     } else if (move.to == Coordinates('b', '1')) {
       c3++;
     } else {
@@ -462,7 +456,6 @@ TEST(KingTests, PossibleMoveTestKh8) {
     } else if (move.to == Coordinates('g', '8')) {
       c2++;
       ASSERT_EQ(move.constrains.size(), 0);
-
     } else if (move.to == Coordinates('g', '7')) {
       c3++;
       ASSERT_EQ(move.constrains.size(), 0);
@@ -493,7 +486,6 @@ TEST(KingTests, PossibleMoveTestKd5) {
     } else if (move.to == Coordinates('c', '4')) {
       c2++;
       ASSERT_EQ(move.constrains.size(), 0);
-
     } else if (move.to == Coordinates('d', '4')) {
       c3++;
       ASSERT_EQ(move.constrains.size(), 0);
@@ -901,4 +893,45 @@ TEST(BoardTest, IsCheckmate) {
   Board board1("w a1wK a3bR c1bR");
 
   ASSERT_FALSE(board1.is_checkmate());
+}
+
+TEST(BoardTest, IsPat1) {
+  Board board("w a1wK a3bR c1bR c3bQ");
+  ASSERT_FALSE(board.is_pat());
+}
+
+TEST(BoardTest, IsPat2) {
+  Board board("w a1wK a3bK");
+  ASSERT_TRUE(board.is_pat());
+}
+TEST(BoardTest, IsPat3) {
+  Board board("w a1wK a3bK g4bQ");
+  ASSERT_FALSE(board.is_pat());
+}
+
+TEST(BoardTest, IsPat4) {
+  Board board("w a1wK a3bK h8bR");
+  ASSERT_FALSE(board.is_pat());
+}
+
+TEST(BoardTest, IsPat5) {
+  Board board("w a1wK a3bK h8bP");
+  ASSERT_FALSE(board.is_pat());
+}
+TEST(BoardTest, IsPat6) {
+  Board board("w a1wK a3bK h8bN h6wB");
+  ASSERT_TRUE(board.is_pat());
+}
+TEST(BoardTest, mv_from_string) {
+  std::string test = "a1b2";
+  Move mv = move_from_string(test);
+  ASSERT_EQ(mv.from.file, 0);
+  ASSERT_EQ(mv.from.rank, 0);
+  ASSERT_EQ(mv.to.file, 1);
+  ASSERT_EQ(mv.to.rank, 1);
+}
+TEST(BoardTest, str_from_move) {
+  Move mv = {{1, 1}, {3, 7}}; //NOLINT
+  std::string ret = move_to_str(mv);
+  ASSERT_EQ("b2d8", ret);
 }

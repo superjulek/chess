@@ -135,7 +135,11 @@ Communicator Runner::get_start_communicator() {
       .options_map = {},
       .action = {[&](const Command &cmd) {
         std::string path = cmd.options_map.at("-path");
-        this->controller.load_game(path);
+        std::unique_ptr<IPlayer> player_black = std::make_unique<AIPlayer>(Piece::PieceColor::Black);
+        std::unique_ptr<IPlayer> player_white = std::make_unique<AIPlayer>(Piece::PieceColor::White);
+
+        this->controller.load_game(path, std::move(player_white),
+                                    std::move(player_black));
       }},
   });
   return com;
@@ -167,6 +171,29 @@ Communicator Runner::get_gaming_communicator(Game::GameState state) {
         .options_map = {},
         .action = {[&](const Command &cmd __attribute__((unused))) {
           this->controller.next_move();
+        }},
+    });
+    com.add_command({
+        .name = "resign",
+        .description = "I want to resign",
+        .options = {},
+        .options_map = {},
+        .action = {[&](const Command &cmd __attribute__((unused))) {
+          this->controller.abandon_game();
+        }},
+    });
+    com.add_command({
+        .name = "save-game",
+        .description = "It saves your game in given location",
+        .options = {{
+          .name = "-path",
+          .default_value = "",
+          .required = true,
+      }},
+        .options_map = {},
+        .action = {[&](const Command &cmd __attribute__((unused))) {
+          std::string path = cmd.options_map.at("-path");
+          this->controller.save_game(path);
         }},
     });
   }

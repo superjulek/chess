@@ -1,13 +1,11 @@
 #include "game.h"
 
 Game::Game(std::unique_ptr<IPlayer> white, std::unique_ptr<IPlayer> black)
-    : current_depth(0), preview(false), board(std::make_unique<Board>()),
-      player_white(std::move(white)), player_black(std::move(black)) {}
+    : current_depth(0), preview(false), board(std::make_unique<Board>()), player_white(std::move(white)), player_black(std::move(black)) {}
 
 Game::Game(std::unique_ptr<IPlayer> white, std::unique_ptr<IPlayer> black,
            std::unique_ptr<Board> board)
-    : current_depth(0), preview(false), board(std::move(board)),
-      player_white(std::move(white)), player_black(std::move(black)) {}
+    : current_depth(0), preview(false), board(std::move(board)), player_white(std::move(white)), player_black(std::move(black)) {}
 
 Board::BoardLayout Game::get_board_layout() { return board->get_layout(); }
 
@@ -46,8 +44,7 @@ void Game::step_forward(size_t steps) {
   size_t total_depth = get_max_depth();
   if (current_depth >= steps) {
     for (size_t step = 0; step < steps; ++step) {
-      board->apply_move(past_moves.at(total_depth - current_depth + step),
-                        true);
+      board->apply_move(past_moves.at(total_depth - current_depth + step), true);
     }
     current_depth -= steps;
   } else {
@@ -76,11 +73,11 @@ void Game::next_move() {
       break;
     }
     throw std::runtime_error(
-        "Move not possible"); // TODO: prompt for next moves
+        "Move not possible");  // TODO: prompt for next moves
   }
 }
 
-void Game::make_move(Move move) {
+void Game::make_move(const Move move) {
   if (preview) {
     throw std::runtime_error("Cannot move in preview mode");
   }
@@ -95,6 +92,9 @@ void Game::make_move(Move move) {
 }
 
 Game::GameState Game::get_state() {
+  if (board->is_pat()) {
+    return GameState::Pat;
+  }
   if (board->get_possible_moves().empty()) {
     if (board->is_check(true)) {
       return GameState::Checkmate;
@@ -108,5 +108,17 @@ Game::GameState Game::get_state() {
 }
 
 std::unique_ptr<Game> Game::clone_current() {
-  throw std::runtime_error("Cloning game not implemented"); // TODO
+  throw std::runtime_error("Cloning game not implemented");  // TODO
+}
+std::string Game::game_string() {
+  try {
+    std::string ret_string;
+    for (auto mv : past_moves) {
+      ret_string += move_to_str(mv);
+    }
+    return ret_string;
+  } catch (const std::exception& e) {
+    std::cerr << e.what() << '\n';
+    return "";
+  }
 }

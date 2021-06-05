@@ -5,7 +5,6 @@
 #include <utility>
 
 Board::Board() : current_player(Piece::PieceColor::White) {
-
   const int first_rank = 0;
   const int last_rank = 7;
   const int second_rank = 1;
@@ -113,6 +112,33 @@ Board::Board(const std::string &notation) {
                              ex.what());
   }
 }
+bool Board::is_pat() {
+  /* Pat beacues lack of material
+  On the board only 2 kings, or for each player 1 King 1 Knight/Bishop */
+  int black = 0;
+  int white = 0;
+  for (size_t file = 0; file < chess_size; ++file) {
+    for (size_t rank = 0; rank < chess_size; ++rank) {
+      if (fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Pawn ||
+          fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Queen ||
+          fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Rook) {
+        return false;
+      }
+      if (fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Knight ||
+          fields.at(file).at(rank)->get_piece_id() == Piece::PieceID::Bishop) {
+        if (fields.at(file).at(rank)->get_piece_color() == Piece::PieceColor::Black) {
+          black += 1;
+        } else {
+          white += 1;
+        }
+      }
+      if (white >= 2 && black >= 2) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 bool Board::is_check(bool current) {
   // Find king of current player
@@ -179,7 +205,7 @@ found:
       }
       int file_checked = file + file_dir;
       int rank_checked = rank + rank_dir;
-      bool first = true; // Nearest
+      bool first = true;  // Nearest
 
       while (file_checked >= 0 && file_checked < static_cast<int>(chess_size) &&
              rank_checked >= 0 && rank_checked < static_cast<int>(chess_size)) {
@@ -217,7 +243,7 @@ found:
   return false;
 }
 
-bool Board::is_constrain_ok(const PossibleMove::Constrain &constrain) const{
+bool Board::is_constrain_ok(const PossibleMove::Constrain &constrain) const {
   Piece::PieceID piece_id = fields.at(constrain.coords.file)
                                 .at(constrain.coords.rank)
                                 ->get_piece_id();
@@ -231,7 +257,7 @@ bool Board::is_constrain_ok(const PossibleMove::Constrain &constrain) const{
       PossibleMove::Constrain::ConstrainType::TakenByOpponent) {
     return piece_id != Piece::PieceID::Empty && piece_color != current_player;
   }
-  return false; // Unknown constrain
+  return false;  // Unknown constrain
 }
 
 bool Board::is_move_possible(const Move &move) {
@@ -298,7 +324,7 @@ void Board::apply_move(const StoredMove &move, bool forward) {
   }
 }
 
-std::vector<PossibleMove> Board::get_possible_moves() const { // NOLINT
+std::vector<PossibleMove> Board::get_possible_moves() const {  // NOLINT
 
   std::vector<PossibleMove> possible_moves;
   for (size_t file = 0; file < chess_size; ++file) {
@@ -359,4 +385,21 @@ bool operator==(const Board::BoardLayout &bl1, const Board::BoardLayout &bl2) {
     }
   }
   return true;
+}
+
+std::string move_to_str(Move mv) {
+  std::string ret;
+  ret = Coordinates::file_map.at(mv.from.file);
+  ret += Coordinates::rank_map.at(mv.from.rank);
+  ret += Coordinates::file_map.at(mv.to.file);
+  ret += Coordinates::rank_map.at(mv.to.rank);
+  return ret;
+}
+Move move_from_string(std::string mv_string) {
+  Move ret_mv;
+  ret_mv.from.file = Coordinates::file_map_rev.at(mv_string.at(0));
+  ret_mv.from.rank = Coordinates::rank_map_rev.at(mv_string.at(1));
+  ret_mv.to.file = Coordinates::file_map_rev.at(mv_string.at(2));
+  ret_mv.to.rank = Coordinates::rank_map_rev.at(mv_string.at(3));
+  return ret_mv;
 }

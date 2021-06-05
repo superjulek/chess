@@ -1,21 +1,21 @@
 #pragma once
 
+#include <array>
+#include <memory>
+#include <vector>
+
 #include "../pieces/bishop.h"
 #include "../pieces/empty.h"
 #include "../pieces/king.h"
 #include "../pieces/knight.h"
 #include "../pieces/pawn.h"
 #include "../pieces/piece.h"
-#include "../pieces/rook.h"
-#include "../pieces/queen.h"
 #include "../pieces/piece_factory.h"
-
-#include <array>
-#include <memory>
-#include <vector>
+#include "../pieces/queen.h"
+#include "../pieces/rook.h"
 
 class Board {
-public:
+ public:
   Board();
   Board(const Board &other);
   /**
@@ -46,6 +46,7 @@ public:
    * @param current   true for testing current player
    * */
   bool is_check(bool current);
+  bool is_pat();
   bool is_checkmate();
   /**
    * Apply history move
@@ -55,12 +56,16 @@ public:
   /* Move should be checked if is possible beforehand */
   void apply_move(const Move &move);
 
-private:
+ private:
   /* .at(file).at(rank) */
   std::array<std::array<std::unique_ptr<Piece>, chess_size>, chess_size> fields;
   Piece::PieceColor current_player;
   bool is_constrain_ok(const PossibleMove::Constrain &constrain) const;
 
-public:
+ public:
   inline Piece::PieceColor get_current_player() { return current_player; }
 };
+
+std::string move_to_str(Move mv);
+
+Move move_from_string(std::string mv_string);
