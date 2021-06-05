@@ -1,4 +1,5 @@
 #include "loader.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -13,30 +14,25 @@ void Loader::start_from_current_preview() {
   game = std::move(cloned);
 }
 
-void Loader::store_game_to_file(const std::string &path)
-{
+void Loader::store_game_to_file(const std::string &path) {
   std::ofstream myfile(path);
   std::string game_string = game->game_string();
   myfile << game_string;
   myfile.close();
 }
 
-void Loader::load_game_from_file(const std::string &path)
-{
+void Loader::load_game_from_file(const std::string &path) {
   std::ifstream myfile;
   myfile.open(path);
   std::string file_content;
-  if(!myfile)
-  {
+  if (!myfile) {
     throw std::runtime_error("Unable to open file");
   }
-  while(!myfile.eof())
-  {
-    myfile>>file_content;
+  while (!myfile.eof()) {
+    myfile >> file_content;
   }
   std::vector<StoredMove> past_moves;
-  while(file_content.size())
-  {
+  while (file_content.size()) {
     Move mv = move_from_string(file_content.substr(0, 4));
     past_moves.push_back({mv, Piece::PieceID::Empty});
     file_content.erase(0, 4);

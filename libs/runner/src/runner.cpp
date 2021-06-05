@@ -169,6 +169,29 @@ Communicator Runner::get_gaming_communicator(Game::GameState state) {
           this->controller.next_move();
         }},
     });
+    com.add_command({
+        .name = "resign",
+        .description = "I want to resign",
+        .options = {},
+        .options_map = {},
+        .action = {[&](const Command &cmd __attribute__((unused))) {
+          this->controller.abandon_game();
+        }},
+    });
+    com.add_command({
+        .name = "save-game",
+        .description = "It saves your game in given location",
+        .options = {{
+          .name = "-path",
+          .default_value = "",
+          .required = true,
+      }},
+        .options_map = {},
+        .action = {[&](const Command &cmd __attribute__((unused))) {
+          std::string path = cmd.options_map.at("-path");
+          this->controller.save_game(path);
+        }},
+    });
   }
   // TODO: Add commands !!!Depending on game state!!!
   // TODO comm: Enter preview

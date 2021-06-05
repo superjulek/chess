@@ -1,16 +1,16 @@
 #pragma once
 
-#include "player/ai_player.h"
-#include "player/human_player.h"
-#include "player/i_player.h"
-
 #include <chess/board/board.h>
 
 #include <memory>
 #include <vector>
 
+#include "player/ai_player.h"
+#include "player/human_player.h"
+#include "player/i_player.h"
+
 class Game {
-private:
+ private:
   std::vector<StoredMove> past_moves;
   size_t current_depth;
   bool preview;
@@ -18,7 +18,7 @@ private:
   std::unique_ptr<IPlayer> player_white;
   std::unique_ptr<IPlayer> player_black;
 
-public:
+ public:
   enum class GameState {
     Normal,
     Checkmate,
@@ -47,5 +47,5 @@ public:
   /* For testing */
   void make_move(Move move);
   std::unique_ptr<Game> clone_current();
-  std::vector<StoredMove> get_past_moves(){return past_moves;}
+  std::vector<StoredMove> get_past_moves() { return past_moves; }
 };
