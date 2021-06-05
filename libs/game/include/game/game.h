@@ -42,7 +42,10 @@ public:
   void step_forward(size_t steps);
   GameState get_state();
   void next_move();
+  std::string game_string();
+  void set_past_moves(std::vector<StoredMove> past_moves);
   /* For testing */
   void make_move(Move move);
   std::unique_ptr<Game> clone_current();
+  std::vector<StoredMove> get_past_moves(){return past_moves;}
 };

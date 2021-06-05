@@ -4,15 +4,20 @@
 #include "coordinates.h"
 
 #include <vector>
+#include <string>
 
-struct Move {
+struct Move
+{
   Coordinates from;
   Coordinates to;
 };
 
-struct PossibleMove : public Move {
-  struct Constrain {
-    enum class ConstrainType : int {
+struct PossibleMove : public Move
+{
+  struct Constrain
+  {
+    enum class ConstrainType : int
+    {
       Free,
       TakenByOpponent,
     };
@@ -23,7 +28,8 @@ struct PossibleMove : public Move {
 };
 
 /* For keeping in history and replaying board back and forward */
-struct StoredMove : public Move {
+struct StoredMove : public Move
+{
   // Piece::PieceColor moved_color;
   Piece::PieceID piece_captured;
 };

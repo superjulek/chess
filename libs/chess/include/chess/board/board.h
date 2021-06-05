@@ -14,7 +14,8 @@
 #include <memory>
 #include <vector>
 
-class Board {
+class Board
+{
 public:
   Board();
   Board(const Board &other);
@@ -28,8 +29,10 @@ public:
    * f - piece type [K, Q, R, B, N, P]
    */
   Board(const std::string &notation);
-  struct BoardLayout {
-    struct TileData {
+  struct BoardLayout
+  {
+    struct TileData
+    {
       Piece::PieceID piece_id;
       Piece::PieceColor color;
     };
@@ -46,6 +49,7 @@ public:
    * @param current   true for testing current player
    * */
   bool is_check(bool current);
+  bool is_pat();
   bool is_checkmate();
   /**
    * Apply history move
@@ -64,3 +68,7 @@ private:
 public:
   inline Piece::PieceColor get_current_player() { return current_player; }
 };
+
+std::string move_to_str(Move mv);
+
+Move move_from_string(std::string mv_string);
