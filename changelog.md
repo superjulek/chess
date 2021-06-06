@@ -1,5 +1,11 @@
 # Changelog
-
+## 0.1.2 (2022-06-06) arybski
+ - Ładowanie gry
+ - Aktualizacaja runnera 
+## 0.1.2 (2021-06-06) arybski
+ - Zapisywanie gry do pliku
+ - Zapis/odczyt ruchów z pliku
+ - Aktualizacja odczytu stanu gry
 ## 0.1.1 (2021-06-05) jneuman
 - Ładowacz gry
 - Kontroler gry
