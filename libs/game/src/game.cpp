@@ -72,8 +72,6 @@ void Game::next_move() {
       past_moves.push_back({move, captured_piece});
       break;
     }
-    throw std::runtime_error(
-        "Move not possible");  // TODO: prompt for next moves
   }
 }
 

@@ -38,10 +38,15 @@ static Command get_exit_command() {
   return exit_com;
 }
 
-std::function<Move(const Board &)> Runner::get_user_prompting_fun() {
-  return [&](const Board &board __attribute__((unused))) {
+std::function<Move(const Board &, std::string name, bool retry)> Runner::get_user_prompting_fun() {
+  return [&](const Board &board __attribute__((unused)), std::string name, bool retry) {
     Move mv;
     Communicator com;
+    this->controller.display_text("Turn of player named: " + name + "\n");
+    if (retry) {
+      this->controller.display_text("Move not possible! Try once again: " + name + "\n");
+    }
+    retry = true;
     com.add_command({
         .name = "move",
         .description = "Give move coords. (e.g. move -from a2 -to a3)",
@@ -73,6 +78,7 @@ std::function<Move(const Board &)> Runner::get_user_prompting_fun() {
         com.communicate();
         break;
       } catch (const std::exception &exc) {
+        retry = true;
         this->controller.display_text("Wrong coords, retry!\n");
       }
     }
