@@ -39,7 +39,7 @@ static Command get_exit_command() {
 }
 
 std::function<Move(const Board &, std::string name, bool retry)> Runner::get_user_prompting_fun() {
-  return [&](const Board &board __attribute__((unused)), std::string name, bool retry) {
+  return [&](const Board &board __attribute__((unused)), const std::string &name, bool retry) {
     Move mv;
     Communicator com;
     this->controller.display_text("Turn of player named: " + name + "\n");
