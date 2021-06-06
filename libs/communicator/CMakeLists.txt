@@ -37,4 +37,10 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+target_link_libraries(
+    ${LIBRARY_NAME}
+   PUBLIC
+    Logger::logger
+)
+
 add_subdirectory(tests)

@@ -5,6 +5,8 @@
 #include <exception>
 #include <iostream>
 
+#include <logger/logger.h>
+
 std::vector<std::string> split(std::string str) {
   std::istringstream ss(str);
   std::string word;
@@ -42,6 +44,8 @@ void Communicator::communicate() {
         });
     if (cmd != commands.end()) {
       cmd->parse_options(words);
+      Logger::get_instance().log(LogSev::Info,
+                                 std::string("Running command ") + cmd->name);
       std::cout << "Running command " + cmd->name << std::endl;
       cmd->action(*cmd);
       return;
