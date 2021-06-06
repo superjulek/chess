@@ -14,8 +14,6 @@ Runner::Runner() : controller(std::make_unique<ConsoleViewer>()) {
 
 void Runner::register_logger() {
   /* Register loggers */
-  Logger::get_instance().register_channel(std::make_unique<ConsoleLogger>(
-      ConsoleLogger(LogSev::Debug, LogSev::Error)));
   Logger::get_instance().register_channel(std::make_unique<FileLogger>(
       FileLogger(LogSev::Trace, LogSev::Fatal,
                  getenv("HOME") + std::string("/chesslogs/logs.log"))));
@@ -38,13 +36,16 @@ static Command get_exit_command() {
   return exit_com;
 }
 
-std::function<Move(const Board &, std::string name, bool retry)> Runner::get_user_prompting_fun() {
-  return [&](const Board &board __attribute__((unused)), const std::string &name, bool retry) {
+std::function<Move(const Board &board, const std::string &name, bool retry)>
+Runner::get_user_prompting_fun() {
+  return [&](const Board &board __attribute__((unused)),
+             const std::string &name, bool retry) {
     Move mv;
     Communicator com;
     this->controller.display_text("Turn of player named: " + name + "\n");
     if (retry) {
-      this->controller.display_text("Move not possible! Try once again: " + name + "\n");
+      this->controller.display_text(
+          "Move not possible! Try once again: " + name + "\n");
     }
     com.add_command({
         .name = "move",
@@ -129,23 +130,24 @@ Communicator Runner::get_start_communicator() {
   com.add_command({
       .name = "load-from-file",
       .description = "Load game from file",
-      .options = {
+      .options =
           {
-              .name = "-path",
-              .default_value = "",
-              .required = true,
+              {
+                  .name = "-path",
+                  .default_value = "",
+                  .required = true,
+              },
+              {
+                  .name = "-player1-name",
+                  .default_value = "AI-1",
+                  .required = false,
+              },
+              {
+                  .name = "-player2-name",
+                  .default_value = "AI-2",
+                  .required = false,
+              },
           },
-          {
-              .name = "-player1-name",
-              .default_value = "AI-1",
-              .required = false,
-          },
-          {
-              .name = "-player2-name",
-              .default_value = "AI-2",
-              .required = false,
-          },
-      },
       .options_map = {},
       .action = {[&](const Command &cmd) {
         std::string path = cmd.options_map.at("-path");
@@ -205,6 +207,15 @@ Communicator Runner::get_gaming_communicator(Game::GameState state) {
         this->controller.save_game(path);
       }},
   });
+  com.add_command({
+      .name = "preview-game",
+      .description = "It lets you look through moves, entering preview mode.",
+      .options = {},
+      .options_map = {},
+      .action = {[&](const Command &cmd __attribute__((unused))) {
+        this->controller.enter_preview();
+      }},
+  });
   if (state != Game::GameState::Checkmate && state != Game::GameState::Pat) {
     com.add_command({
         .name = "next-move",
@@ -228,15 +239,6 @@ Communicator Runner::get_gaming_communicator(Game::GameState state) {
       controller.display_text("Check!\n");
     }
   } else {
-    com.add_command({
-        .name = "preview-game",
-        .description = "It lets you look through moves, entering preview mode.",
-        .options = {},
-        .options_map = {},
-        .action = {[&](const Command &cmd __attribute__((unused))) {
-          this->controller.enter_preview();
-        }},
-    });
     com.add_command({
         .name = "start-new",
         .description =
