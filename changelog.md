@@ -1,5 +1,5 @@
 # Changelog
-## 0.1.2 (2022-06-06) arybski
+## 0.1.2 (2022-06-07) arybski
  - Ładowanie gry
  - Aktualizacaja runnera 
 ## 0.1.2 (2021-06-06) arybski
