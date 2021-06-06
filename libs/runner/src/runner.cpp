@@ -46,7 +46,6 @@ std::function<Move(const Board &, std::string name, bool retry)> Runner::get_use
     if (retry) {
       this->controller.display_text("Move not possible! Try once again: " + name + "\n");
     }
-    retry = true;
     com.add_command({
         .name = "move",
         .description = "Give move coords. (e.g. move -from a2 -to a3)",
@@ -78,7 +77,6 @@ std::function<Move(const Board &, std::string name, bool retry)> Runner::get_use
         com.communicate();
         break;
       } catch (const std::exception &exc) {
-        retry = true;
         this->controller.display_text("Wrong coords, retry!\n");
       }
     }
