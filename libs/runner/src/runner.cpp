@@ -233,45 +233,45 @@ Communicator Runner::get_gaming_communicator(Game::GameState state) {
           this->controller.enter_preview();
         }},
     });
-   com.add_command({
-      .name = "start-new",
-      .description =
-          "Starts new game. Set names for human players. AI otherwise.",
-      .options =
-          {
-              {
-                  .name = "-player1-name",
-                  .default_value = "AI-1",
-                  .required = false,
-              },
-              {
-                  .name = "-player2-name",
-                  .default_value = "AI-2",
-                  .required = false,
-              },
-          },
-      .options_map = {},
-      .action = {[&](const Command &cmd) {
-        std::unique_ptr<IPlayer> player_white;
-        std::string white_name = cmd.options_map.at("-player1-name");
-        if (white_name == "AI-1") {
-          player_white = std::make_unique<AIPlayer>(Piece::PieceColor::White);
-        } else {
-          player_white = std::make_unique<HumanPlayer>(
-              Piece::PieceColor::White, white_name, get_user_prompting_fun());
-        }
-        std::unique_ptr<IPlayer> player_black;
-        std::string black_name = cmd.options_map.at("-player2-name");
-        if (black_name == "AI-2") {
-          player_black = std::make_unique<AIPlayer>(Piece::PieceColor::Black);
-        } else {
-          player_black = std::make_unique<HumanPlayer>(
-              Piece::PieceColor::Black, black_name, get_user_prompting_fun());
-        }
-        this->controller.start_game(std::move(player_white),
-                                    std::move(player_black));
-      }},
-  });
+    com.add_command({
+        .name = "start-new",
+        .description =
+            "Starts new game. Set names for human players. AI otherwise.",
+        .options =
+            {
+                {
+                    .name = "-player1-name",
+                    .default_value = "AI-1",
+                    .required = false,
+                },
+                {
+                    .name = "-player2-name",
+                    .default_value = "AI-2",
+                    .required = false,
+                },
+            },
+        .options_map = {},
+        .action = {[&](const Command &cmd) {
+          std::unique_ptr<IPlayer> player_white;
+          std::string white_name = cmd.options_map.at("-player1-name");
+          if (white_name == "AI-1") {
+            player_white = std::make_unique<AIPlayer>(Piece::PieceColor::White);
+          } else {
+            player_white = std::make_unique<HumanPlayer>(
+                Piece::PieceColor::White, white_name, get_user_prompting_fun());
+          }
+          std::unique_ptr<IPlayer> player_black;
+          std::string black_name = cmd.options_map.at("-player2-name");
+          if (black_name == "AI-2") {
+            player_black = std::make_unique<AIPlayer>(Piece::PieceColor::Black);
+          } else {
+            player_black = std::make_unique<HumanPlayer>(
+                Piece::PieceColor::Black, black_name, get_user_prompting_fun());
+          }
+          this->controller.start_game(std::move(player_white),
+                                      std::move(player_black));
+        }},
+    });
   }
   if (state == Game::GameState::Pat) {
     this->controller.display_text("\033[1;4mPat!\nIt's a tie! \033[0m\n");
