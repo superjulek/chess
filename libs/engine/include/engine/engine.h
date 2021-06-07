@@ -1,13 +1,13 @@
 #include <chess/board/board.h>
 
 class Engine {
- public:
+public:
   static Engine &get_instance();
-  static Move get_move(const Board &board) {
+  Move get_move(const Board &board) {
     return get_instance().I_get_move(board);
   };
 
- private:
+private:
   Engine() = default;
   ~Engine() = default;
   Engine(const Engine &) = delete;

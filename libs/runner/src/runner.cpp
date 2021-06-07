@@ -1,11 +1,13 @@
 #include "runner.h"
 
+#include <game/game.h>
 #include <logger/channels/console_logger.h>
 #include <logger/channels/file_logger.h>
 #include <logger/logger.h>
 #include <view/viewers/console_viewer.h>
 
 #include <chrono>
+#include <cstdio>
 #include <ctime>
 
 Runner::Runner() : controller(std::make_unique<ConsoleViewer>()) {
@@ -178,8 +180,85 @@ Communicator Runner::get_start_communicator() {
 Communicator Runner::get_preview_communicator() {
   Communicator com;
   com.add_command(get_exit_command());
-  // TODO
-  // TODO comm: Leave preview
+  com.add_command({
+      .name = "exit-preview",
+      .description = "Leave preview mode",
+      .options = {},
+      .options_map = {},
+      .action = {[&](const Command &cmd __attribute__((unused))) {
+        this->controller.leave_preview();
+      }},
+  });
+  com.add_command({.name = "display-board",
+                   .description = "Displays state of board for selected step",
+                   .options = {},
+                   .options_map = {},
+                   .action = {[&](const Command &cmd __attribute__((unused))) {
+                     this->controller.display_board();
+                   }}});
+  com.add_command({
+      .name = "set-steps",
+      .description = "Set amount of steps forward (> 0) or backward (< 0)",
+      .options =
+          {
+              {
+                  .name = "-steps",
+                  .default_value = "0",
+                  .required = true,
+
+              },
+
+          },
+      .options_map = {},
+      .action = {[&](const Command &cmd) {
+        int steps = std::stoi(cmd.options_map.at("-steps"));
+        if (steps > 0) {
+          this->controller.step_forward(steps);
+        } else {
+          this->controller.step_back(-steps);
+        }
+      }},
+  });
+  com.add_command({
+      .name = "continue-game",
+      .description = "Continue current game",
+      .options =
+          {
+              {
+                  .name = "-player1-name",
+                  .default_value = "AI-1",
+                  .required = false,
+              },
+              {
+                  .name = "-player2-name",
+                  .default_value = "AI-2",
+                  .required = false,
+              },
+          },
+      .options_map = {},
+      .action = {[&](const Command &cmd) {
+        std::unique_ptr<IPlayer> player_white;
+        std::string white_name = cmd.options_map.at("-player1-name");
+        if (white_name == "AI-1") {
+          player_white = std::make_unique<AIPlayer>(Piece::PieceColor::White);
+        } else {
+          player_white = std::make_unique<HumanPlayer>(
+              Piece::PieceColor::White, white_name, get_user_prompting_fun());
+        }
+        std::unique_ptr<IPlayer> player_black;
+        std::string black_name = cmd.options_map.at("-player2-name");
+        if (black_name == "AI-2") {
+          player_black = std::make_unique<AIPlayer>(Piece::PieceColor::Black);
+        } else {
+          player_black = std::make_unique<HumanPlayer>(
+              Piece::PieceColor::Black, black_name, get_user_prompting_fun());
+        }
+        this->controller.start_from_current_preview(std::move(player_white),
+                                                    std::move(player_black));
+      }},
+
+  });
+
   return com;
 }
 
@@ -207,15 +286,7 @@ Communicator Runner::get_gaming_communicator(Game::GameState state) {
         this->controller.save_game(path);
       }},
   });
-  com.add_command({
-      .name = "preview-game",
-      .description = "It lets you look through moves, entering preview mode.",
-      .options = {},
-      .options_map = {},
-      .action = {[&](const Command &cmd __attribute__((unused))) {
-        this->controller.enter_preview();
-      }},
-  });
+
   if (state != Game::GameState::Checkmate && state != Game::GameState::Pat) {
     com.add_command({
         .name = "next-move",
@@ -289,6 +360,18 @@ Communicator Runner::get_gaming_communicator(Game::GameState state) {
       this->controller.display_text("\033[1;4mCheckmate!\nWhite won!\033[0m\n");
     }
   }
+  com.add_command({
+      .name = "enter-preview",
+      .description = "Preview other state of game. ",
+      .options = {},
+      .options_map = {},
+      .action = {[&](const Command &cmd __attribute__((unused))) {
+        this->controller.enter_preview();
+      }},
+  });
+
+  // TODO: Add commands !!!Depending on game state!!!
+
   return com;
 }
 

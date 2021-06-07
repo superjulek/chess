@@ -29,7 +29,18 @@ Piece::PieceColor Controller::get_current_player() {
   }
   return loader.get_game_ptr()->get_current_player_color();
 }
-
+void Controller::step_forward(size_t steps) {
+  if (!is_game_loaded()) {
+    throw std::runtime_error("Game not loaded");
+  }
+  loader.get_game_ptr()->step_forward(steps);
+}
+void Controller::step_back(size_t steps) {
+  if (!is_game_loaded()) {
+    throw std::runtime_error("Game not loaded");
+  }
+  loader.get_game_ptr()->step_back(steps);
+}
 void Controller::enter_preview() {
   if (!is_game_loaded()) {
     throw std::runtime_error("Game not loaded");
@@ -79,3 +90,11 @@ void Controller::load_game(const std::string &path, std::unique_ptr<IPlayer> whi
 
   loader.load_game_from_file(path, std::move(white), std::move(black));
 }
+void Controller::start_from_current_preview(std::unique_ptr<IPlayer> white,
+                  std::unique_ptr<IPlayer> black)
+{
+  loader.start_from_current_preview(std::move(white),
+                                    std::move(black));
+ 
+}
+

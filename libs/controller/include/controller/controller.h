@@ -17,6 +17,10 @@ public:
                   std::unique_ptr<IPlayer> black);
   void enter_preview();
   void leave_preview();
+  void step_forward(size_t steps);
+  void step_back(size_t steps);
+  void start_from_current_preview(std::unique_ptr<IPlayer> white,
+                  std::unique_ptr<IPlayer> black);
   void abandon_game();
   void save_game(const std::string &path);
   void load_game(const std::string &path, std::unique_ptr<IPlayer> white,
