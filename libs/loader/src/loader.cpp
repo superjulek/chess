@@ -8,10 +8,14 @@ void Loader::create_new_game(std::unique_ptr<IPlayer> white,
   game.reset(new Game(std::move(white), std::move(black)));
 }
 
-void Loader::start_from_current_preview() {
-  auto cloned = game->clone_current();
+void Loader::start_from_current_preview(std::unique_ptr<IPlayer> white,
+                  std::unique_ptr<IPlayer> black) {
+  
+  auto cloned = game->clone_current(std::move(white),
+                                    std::move(black));
   game.reset();
   game = std::move(cloned);
+  
 }
 
 void Loader::store_game_to_file(const std::string &path) {
