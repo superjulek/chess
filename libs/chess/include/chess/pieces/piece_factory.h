@@ -11,7 +11,6 @@
 
 #include <exception>
 
-// Dirty solution, should be improved
 namespace Pieces {
 inline std::unique_ptr<Piece> get_piece_by_id(Piece::PieceID id,
                                               Piece::PieceColor color) {
