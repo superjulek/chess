@@ -1,4 +1,8 @@
 # Changelog
+## 1.0.0 (2021-06-09) arybski
+ - Dodanie raportu
+## 0.1.3 (2021-06-07) kszewcza
+ - Implementacja trybu preview
 ## 0.1.2 (2021-06-07) arybski
  - Ładowanie gry
  - Aktualizacaja runnera 
